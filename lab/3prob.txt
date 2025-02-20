@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+void countWordsAndLines(char filename[]) {
+    FILE *fp;
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Could not open file\n");
+        return;
+    }
+    int lines = 0, words = 0;
+    char ch;
+    int inword = 0;
+    while ((ch = fgetc(fp)) != EOF) {
+        if (ch == '\n') {
+            lines++;
+            inword = 0;
+        } else if (ch == ' ' || ch == '\t') {
+            inword = 0;
+        } else if (!inword) {
+            words++;
+            inword = 1;
+        }
+    }
+    fclose(fp);
+    printf("Total Lines: %d\n", lines + 1);
+    printf("Total Words: %d\n", words);
+}
+int main() {
+    char filename[256];
+    printf("Enter filename: ");
+    scanf("%s", filename);
+    countWordsAndLines(filename);
+    return 0;
+}
