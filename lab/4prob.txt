@@ -1,0 +1,44 @@
+#include <stdio.h>
+typedef struct {
+    int ID;
+    char Name[100];
+    int Marks[3];
+} Student;
+void appendStudentRecord() {
+    Student student;
+    printf("Enter student ID: ");
+    scanf("%d", &student.ID);
+    printf("Enter student Name: ");
+    scanf("%s", student.Name);
+    printf("Enter student Marks: ");
+    scanf("%d %d %d", &student.Marks[0], &student.Marks[1], &student.Marks[2]);
+    FILE *fp;
+    fp = fopen("students.txt", "a");
+    if (fp == NULL) {
+        printf("Could not open file\n");
+        return;
+    }
+    fprintf(fp, "%d %s %d %d %d\n", student.ID, student.Name, student.Marks[0], student.Marks[1], student.Marks[2]);
+    fclose(fp);
+}
+void displayStudentRecords() {
+    FILE *fp;
+    fp = fopen("students.txt", "r");
+    if (fp == NULL) {
+        printf("Could not open file\n");
+        return;
+    }
+    printf("Student Records:\n");
+    char line[256];
+    while (fgets(line, sizeof(line), fp)) {
+        printf("%s", line);
+    }
+    fclose(fp);
+}
+int main() {
+    printf("Appending student:\n");
+    appendStudentRecord();
+    printf("\n");
+    displayStudentRecords();
+    return 0;
+}
