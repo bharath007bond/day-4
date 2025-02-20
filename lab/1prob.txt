@@ -1,0 +1,51 @@
+#include <stdio.h>
+typedef struct {
+    int subject1;
+    int subject2;
+    int subject3;
+} Marks;
+typedef struct {
+    int ID;
+    char Name[100];
+    Marks marks;
+} Student;
+void readStudents(Student students[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("Enter ID: ");
+        scanf("%d", &students[i].ID);
+        printf("Enter Name: ");
+        scanf("%s", students[i].Name);
+        printf("Enter marks in 3 subjects: ");
+        scanf("%d %d %d", &students[i].marks.subject1, &students[i].marks.subject2, &students[i].marks.subject3);
+    }
+}
+void calculateGrades(Student students[], int n) {
+    for (int i = 0; i < n; i++) {
+        int total = students[i].marks.subject1 + students[i].marks.subject2 + students[i].marks.subject3;
+        float average = (float)total / 3;
+        char grade;
+        if (average >= 90)
+            grade = 'A';
+        else if (average >= 75)
+            grade = 'B';
+        else if (average >= 60)
+            grade = 'C';
+        else if (average >= 45)
+            grade = 'D';
+        else
+            grade = 'F';
+        printf("%s - Total: %d, Average: %.2f, Grade: %c\n", students[i].Name, total, average, grade);
+    }
+}
+void displayStudents(Student students[], int n) {
+    calculateGrades(students, n);
+}
+int main() {
+    int n;
+    printf("Enter number of students: ");
+    scanf("%d", &n);
+    Student students[n];
+    readStudents(students, n);
+    displayStudents(students, n);
+    return 0;
+}
